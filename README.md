@@ -16,7 +16,7 @@
 $ python bars.py <path to data_of_bars.json> <longitude> <latitude>
 # possibly requires call of python3 executive instead of just python
 
- **********The biggest bar***********
+The biggest bar:
 
  {
     "properties": {
@@ -51,7 +51,7 @@ $ python bars.py <path to data_of_bars.json> <longitude> <latitude>
     }
 }
 
- **********The smallest bar**********
+The smallest bar:
 
  {
     "properties": {
@@ -86,7 +86,7 @@ $ python bars.py <path to data_of_bars.json> <longitude> <latitude>
     }
 }
 
- **********The closest bar***********
+The closest bar:
 
  {
     "properties": {

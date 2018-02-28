@@ -26,13 +26,13 @@ def get_closest_bar(python_object, longitude, latitude):
 if __name__ == '__main__':
     try:
         python_obj_data = load_data(argv[1])
-        print('\n', 'The biggest bar'.center(36, '*'), '\n\n',
+        print('\nThe biggest bar:\n\n',
               json.dumps(get_biggest_bar(python_obj_data), ensure_ascii=False,
               indent=4))
-        print('\n', 'The smallest bar'.center(36, '*'), '\n\n',
+        print('\nThe smallest bar:\n\n',
               json.dumps(get_smallest_bar(python_obj_data), ensure_ascii=False,
               indent=4))
-        print('\n', 'The closest bar'.center(36, '*'), '\n\n', json.dumps(
+        print('\nThe closest bar:\n\n', json.dumps(
             get_closest_bar(python_obj_data, argv[2], argv[3]),
             ensure_ascii=False, indent=4))
     except ValueError:
