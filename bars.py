@@ -17,19 +17,19 @@ def get_smallest_bar(data):
 
 def get_closest_bar(data, longitude, latitude):
     return min(data['features'], key=lambda item:
-               [abs(item['geometry']['coordinates'][0] - float(longitude)), abs(item['geometry']['coordinates'][1] - float(latitude))])
+    [abs(item['geometry']['coordinates'][0] - float(longitude)), abs(item['geometry']['coordinates'][1] - float(latitude))])
 
 
 if __name__ == '__main__':
     try:
         original_data = load_data(argv[1])
+        print('\nThe biggest bar: \n')
         print(json.dumps(get_biggest_bar(original_data), ensure_ascii=False, indent=4))
-        print(json.dumps(get_smallest_bar(original_data),
-                         ensure_ascii=False, indent=4))
-        print(json.dumps(get_closest_bar(original_data,
-                                         argv[2], argv[3]), ensure_ascii=False, indent=4))
+        print('\nThe smallest bar: \n')
+        print(json.dumps(get_smallest_bar(original_data), ensure_ascii=False, indent=4))
+        print('\nThe closest bar: \n')
+        print(json.dumps(get_closest_bar(original_data, argv[2], argv[3]), ensure_ascii=False, indent=4))
     except ValueError:
-        print('ERROR:\nthere is no JSON data in the file {0}\nspecify the JSON data file'.format(
-            argv[1]))
+        print('ERROR:\nthere is no JSON data in the file {0}\nspecify the JSON data file'.format(argv[1]))
     except IndexError:
         print('ERROR:\nnot enough arguments\ntry $ python bars.py <path to json file> <longitude> <latitude>')
