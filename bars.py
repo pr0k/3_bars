@@ -6,17 +6,20 @@ def load_data(filepath):
     with open(filepath, 'r') as json_data_file:
         return json.load(json_data_file)
 
+
 def get_biggest_bar(bars_dict):
     return max(
         bars_dict,
         key=lambda item: item['properties']['Attributes']['SeatsCount'],
     )
 
+
 def get_smallest_bar(bars_dict):
     return min(
         bars_dict,
         key=lambda item: item['properties']['Attributes']['SeatsCount'],
     )
+
 
 def get_closest_bar(bars_dict, longitude, latitude):
     return min(
@@ -26,6 +29,7 @@ def get_closest_bar(bars_dict, longitude, latitude):
             abs(item['geometry']['coordinates'][1] - latitude),
         ],
     )
+
 
 def print_info_bar(some_bar):
     print(
@@ -44,6 +48,7 @@ def print_info_bar(some_bar):
         sep='\n',
         end='\n\n',
     )
+
 
 def prettify_json(python_obj):
     return json.dumps(python_obj, ensure_ascii=False, indent=4, sort_keys=True)
@@ -75,7 +80,8 @@ if __name__ == '__main__':
             '\nThe biggest bar:\n\n',
             prettify_json(get_biggest_bar(bars_python_dict)),
         )
-        print('\nThe smallest bar:\n\n',
+        print(
+            '\nThe smallest bar:\n\n',
             prettify_json(get_smallest_bar(bars_python_dict)),
         )
         print(
