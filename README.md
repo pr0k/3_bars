@@ -19,21 +19,21 @@
 $ python bars.py [-h] [-v] bars_json longitude latitude
 # possibly requires call of python3 executive instead of just python
 
- *******The biggest bar:*******
+The biggest bar:
 
 Name:          Спорт бар «Красная машина»
 Address:       Автозаводская улица, дом 23, строение 1
 Seats Count:   450
 Coordinates:   [37.638228501070095, 55.70111462948684]
 
-******The smallest bar:*******
+The smallest bar:
 
 Name:          БАР. СОКИ
 Address:       Дубравная улица, дом 34/29
 Seats Count:   0
 Coordinates:   [37.35805920566864, 55.84614475898795]
 
-*******The closest bar********
+The closest bar:
 
 Name:          Staropramen
 Address:       Садовая-Спасская улица, дом 19, корпус 1
