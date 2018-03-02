@@ -1,43 +1,102 @@
 import json
-from sys import argv
+import argparse
 
 
 def load_data(filepath):
     with open(filepath, 'r') as json_data_file:
         return json.load(json_data_file)
 
+def get_biggest_bar(bars_dict):
+    return max(
+        bars_dict,
+        key=lambda item: item['properties']['Attributes']['SeatsCount'],
+    )
 
-def get_biggest_bar(python_object):
-    return max(python_object['features'], key=lambda item:
-               item['properties']['Attributes']['SeatsCount'])
+def get_smallest_bar(bars_dict):
+    return min(
+        bars_dict,
+        key=lambda item: item['properties']['Attributes']['SeatsCount'],
+    )
 
+def get_closest_bar(bars_dict, longitude, latitude):
+    return min(
+        bars_dict,
+        key=lambda item: [
+            abs(item['geometry']['coordinates'][0] - longitude),
+            abs(item['geometry']['coordinates'][1] - latitude),
+        ],
+    )
 
-def get_smallest_bar(python_object):
-    return min(python_object['features'], key=lambda item:
-               item['properties']['Attributes']['SeatsCount'])
+def print_info_bar(some_bar):
+    print(
+        '\nName:          {}'.format(
+            some_bar['properties']['Attributes']['Name']
+        ),
+        'Address:       {}'.format(
+            some_bar['properties']['Attributes']['Address']
+        ),
+        'Seats Count:   {}'.format(
+            some_bar['properties']['Attributes']['SeatsCount']
+        ),
+        'Coordinates:   {}'.format(
+            some_bar['geometry']['coordinates']
+        ),
+        sep='\n',
+        end='\n\n',
+    )
 
-
-def get_closest_bar(python_object, longitude, latitude):
-    return min(python_object['features'], key=lambda item:
-               [abs(item['geometry']['coordinates'][0] - float(longitude)),
-               abs(item['geometry']['coordinates'][1] - float(latitude))])
-
+def prettify_json(python_obj):
+    return json.dumps(python_obj, ensure_ascii=False, indent=4, sort_keys=True)
 
 if __name__ == '__main__':
-    try:
-        python_obj_data = load_data(argv[1])
-        print('\nThe biggest bar:\n\n',
-              json.dumps(get_biggest_bar(python_obj_data), ensure_ascii=False,
-              indent=4))
+    parser = argparse.ArgumentParser(
+        description=(
+            '|Find out and output the smallest bar, '
+            'the biggest bar and the nearest bar|'
+        ),
+    )
+    parser.add_argument(
+        '-v',
+        '--verbosity',
+        help='increase output verbosity',
+        action='store_true',
+    )
+    parser.add_argument(
+        'bars_json',
+        help='the path to the data file in json format about bars',
+    )
+    parser.add_argument('longitude', help='float number', type=float)
+    parser.add_argument('latitude', help='float number', type=float)
+    args = parser.parse_args()
+    bars_python_dict = load_data(args.bars_json)['features']
+
+    if args.verbosity:
+        print(
+            '\nThe biggest bar:\n\n',
+            prettify_json(get_biggest_bar(bars_python_dict)),
+        )
         print('\nThe smallest bar:\n\n',
-              json.dumps(get_smallest_bar(python_obj_data), ensure_ascii=False,
-              indent=4))
-        print('\nThe closest bar:\n\n', json.dumps(
-            get_closest_bar(python_obj_data, argv[2], argv[3]),
-            ensure_ascii=False, indent=4))
-    except ValueError:
-        print('ERROR:\nthere is no JSON data in the file {0}\nspecify the\
-        JSON data file'.format(argv[1]))
-    except IndexError:
-        print('ERROR:\nnot enough arguments\ntry $ python bars.py <path to\
-        json file> <longitude> <latitude>')
+            prettify_json(get_smallest_bar(bars_python_dict)),
+        )
+        print(
+            '\nThe closest bar\n\n',
+            prettify_json(
+                get_closest_bar(
+                    bars_python_dict,
+                    args.longitude,
+                    args.latitude,
+                ),
+            ),
+        )
+    else:
+        print('\n', 'The biggest bar:'.center(30, '*'))
+        print_info_bar(get_biggest_bar(bars_python_dict))
+        print('The smallest bar:'.center(30, '*'))
+        print_info_bar(get_smallest_bar(bars_python_dict))
+        print('The closest bar'.center(30, '*'))
+        print_info_bar(get_closest_bar(
+            bars_python_dict,
+            args.longitude,
+            args.latitude,
+            )
+        )
