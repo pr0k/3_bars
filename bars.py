@@ -21,12 +21,12 @@ def get_smallest_bar(bars_dict):
     )
 
 
-def get_closest_bar(bars_dict, longitude, latitude):
+def get_closest_bar(bars_dict, args):
     return min(
         bars_dict,
         key=lambda item: [
-            abs(item['geometry']['coordinates'][0] - longitude),
-            abs(item['geometry']['coordinates'][1] - latitude),
+            abs(item['geometry']['coordinates'][0] - args.longitude),
+            abs(item['geometry']['coordinates'][1] - args.latitude),
         ],
     )
 
@@ -86,23 +86,12 @@ if __name__ == '__main__':
         )
         print(
             '\nThe closest bar\n\n',
-            prettify_json(
-                get_closest_bar(
-                    bars_python_dict,
-                    args.longitude,
-                    args.latitude,
-                ),
-            ),
+            prettify_json(get_closest_bar(bars_python_dict, args))
         )
     else:
-        print('\n', 'The biggest bar:'.center(30, '*'))
+        print('The biggest bar:')
         print_info_bar(get_biggest_bar(bars_python_dict))
-        print('The smallest bar:'.center(30, '*'))
+        print('The smallest bar:')
         print_info_bar(get_smallest_bar(bars_python_dict))
-        print('The closest bar'.center(30, '*'))
-        print_info_bar(get_closest_bar(
-            bars_python_dict,
-            args.longitude,
-            args.latitude,
-            )
-        )
+        print('The closest bar:')
+        print_info_bar(get_closest_bar(bars_python_dict, args))
