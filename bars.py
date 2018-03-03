@@ -2,25 +2,24 @@ import json
 import argparse
 
 
-class MyArgParcer(argparse.ArgumentParser):
-    def __init__(self):
-        argparse.ArgumentParser.__init__(self)
-        self.description = (
-            '|Find out and output the smallest bar'
-            'the biggest bar and the nearest bar|'
-        )
-        self.add_argument(
-            '-v',
-            '--verbosity',
-            help='increase output verbosity',
-            action='store_true',
-        )
-        self.add_argument(
-            'bars_json',
-            help='the path to the data file in json format about bars',
-        )
-        self.add_argument('longitude', help='float number', type=float)
-        self.add_argument('latitude', help='float number', type=float)
+def args_from_parser():
+    __parser = argparse.ArgumentParser(
+        '|Find out and output the smallest bar '
+        'the biggest bar and the nearest bar|\n'
+    )
+    __parser.add_argument(
+        '-v',
+        '--verbosity',
+        help='increase output verbosity',
+        action='store_true',
+    )
+    __parser.add_argument(
+        'bars_json',
+        help='the path to the data file in json format about bars',
+    )
+    __parser.add_argument('longitude', help='float number', type=float)
+    __parser.add_argument('latitude', help='float number', type=float)
+    return __parser.parse_args()
 
 
 def load_data(filepath):
@@ -56,46 +55,41 @@ def prettify_json(python_obj):
     return json.dumps(python_obj, ensure_ascii=False, indent=4, sort_keys=True)
 
 
-def print_info_bar(some_bar):
-    print(
-        'Name:\t\t{}'.format(
-            some_bar['properties']['Attributes']['Name']
-        ),
-        'Address:\t{}'.format(
-            some_bar['properties']['Attributes']['Address']
-        ),
-        'Seats Count:\t{}'.format(
-            some_bar['properties']['Attributes']['SeatsCount']
-        ),
-        'Coordinates:\t{}'.format(
-            some_bar['geometry']['coordinates']
-        ),
-        sep='\n',
-        end='\n\n',
+def prettify_bar(some_bar):
+    return (
+        'Name:\t\t{}\nAddress:\t{}\nSeats Count:\t{}\nCoordinates:\t{}'.format(
+            some_bar['properties']['Attributes']['Name'],
+            some_bar['properties']['Attributes']['Address'],
+            some_bar['properties']['Attributes']['SeatsCount'],
+            some_bar['geometry']['coordinates'],
+        )
     )
 
 
-if __name__ == '__main__':
-    args = MyArgParcer().parse_args()
-    bars_list = load_data(args.bars_json)['features']
-
+def print_info_bars(bars_list, args):
     if args.verbosity:
         print(
-            '\n\The biggest bar\\\n',
+            '\The biggest bar\\',
             prettify_json(get_biggest_bar(bars_list)),
-        )
-        print(
-            '\n\The smallest bar\\\n',
+            '\The smallest bar\\',
             prettify_json(get_smallest_bar(bars_list)),
-        )
-        print(
-            '\n\The closest bar\\\n',
-            prettify_json(get_closest_bar(bars_list, args))
+            '\The closest bar\\',
+            prettify_json(get_closest_bar(bars_list, args)),
+            sep='\n\n',
         )
     else:
-        print('\n\The biggest bar\\')
-        print_info_bar(get_biggest_bar(bars_list))
-        print('\The smallest bar\\')
-        print_info_bar(get_smallest_bar(bars_list))
-        print('\The closest bar\\')
-        print_info_bar(get_closest_bar(bars_list, args))
+        print(
+            '\The biggest bar\\',
+            prettify_bar(get_biggest_bar(bars_list)),
+            '\The smallest bar\\',
+            prettify_bar(get_smallest_bar(bars_list)),
+            '\The closest bar\\',
+            prettify_bar(get_closest_bar(bars_list,args)),
+            sep='\n\n',
+        )
+
+
+if __name__ == '__main__':
+    args = args_from_parser()
+    bars_list = load_data(args.bars_json)['features']
+    print_info_bars(bars_list, args)
