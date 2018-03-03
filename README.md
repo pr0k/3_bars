@@ -29,22 +29,22 @@ $ python bars.py [-h] [-v] bars.json 37.746736 55.692729
 # possibly requires call of python3 executive instead of just python
 
 \The biggest bar\
-Name:		         Спорт бар «Красная машина»
-Address:	   	   Автозаводская улица, дом 23, строение 1
-Seats Count:    450
-Coordinates:    [37.638228501070095, 55.70111462948684]
+Name:		Спорт бар «Красная машина»
+Address:	Автозаводская улица, дом 23, строение 1
+Seats Count:	450
+Coordinates:	[37.638228501070095, 55.70111462948684]
 
 \The smallest bar\
-Name:		         БАР. СОКИ
-Address:		      Дубравная улица, дом 34/29
-Seats Count:    0
-Coordinates:    [37.35805920566864, 55.84614475898795]
+Name:		БАР. СОКИ
+Address:	Дубравная улица, дом 34/29
+Seats Count:	0
+Coordinates:	[37.35805920566864, 55.84614475898795]
 
 \The closest bar\
-Name:		         БАР ПРИ «ДВОРЦЕ БРАКОСОЧЕТАНИЯ»
-Address:		      улица Юных Ленинцев, дом 35, корпус 1
-Seats Count:	   60
-Coordinates:    [37.74589207026713, 55.70046093781286]
+Name:		БАР ПРИ «ДВОРЦЕ БРАКОСОЧЕТАНИЯ»
+Address:	улица Юных Ленинцев, дом 35, корпус 1
+Seats Count:	60
+Coordinates:	[37.74589207026713, 55.70046093781286]
 
 ```
 
