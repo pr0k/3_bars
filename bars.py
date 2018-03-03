@@ -56,7 +56,7 @@ def prettify_json(python_obj):
 
 
 def prettify_bar(some_bar):
-    return (
+    __output = (
         'Name:\t\t{}\nAddress:\t{}\nSeats Count:\t{}\nCoordinates:\t{}'.format(
             some_bar['properties']['Attributes']['Name'],
             some_bar['properties']['Attributes']['Address'],
@@ -64,6 +64,7 @@ def prettify_bar(some_bar):
             some_bar['geometry']['coordinates'],
         )
     )
+    return __output
 
 
 def print_info_bars(bars_list, args):
@@ -84,7 +85,7 @@ def print_info_bars(bars_list, args):
             '\The smallest bar\\',
             prettify_bar(get_smallest_bar(bars_list)),
             '\The closest bar\\',
-            prettify_bar(get_closest_bar(bars_list,args)),
+            prettify_bar(get_closest_bar(bars_list, args)),
             sep='\n\n',
         )
 
