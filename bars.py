@@ -76,8 +76,7 @@ def print_info_bar(some_bar):
 
 
 if __name__ == '__main__':
-    myparcer = MyArgParcer()
-    args = myparcer.parse_args()
+    args = MyArgParcer().parse_args()
     bars_list = load_data(args.bars_json)['features']
 
     if args.verbosity:
