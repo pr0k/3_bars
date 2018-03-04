@@ -3,23 +3,23 @@ import argparse
 
 
 def args_from_parser():
-    __parser = argparse.ArgumentParser(
+    parser = argparse.ArgumentParser(
         '|Find out and output the smallest bar '
         'the biggest bar and the nearest bar|\n'
     )
-    __parser.add_argument(
+    parser.add_argument(
         '-v',
         '--verbosity',
         help='increase output verbosity',
         action='store_true',
     )
-    __parser.add_argument(
+    parser.add_argument(
         'bars_json',
         help='the path to the data file in json format about bars',
     )
-    __parser.add_argument('longitude', help='float number', type=float)
-    __parser.add_argument('latitude', help='float number', type=float)
-    return __parser.parse_args()
+    parser.add_argument('longitude', help='float number', type=float)
+    parser.add_argument('latitude', help='float number', type=float)
+    return parser.parse_args()
 
 
 def load_data(filepath):
@@ -56,7 +56,7 @@ def prettify_json(python_obj):
 
 
 def prettify_bar(some_bar):
-    __output = (
+    output = (
         'Name:\t\t{}\nAddress:\t{}\nSeats Count:\t{}\nCoordinates:\t{}'.format(
             some_bar['properties']['Attributes']['Name'],
             some_bar['properties']['Attributes']['Address'],
@@ -64,7 +64,7 @@ def prettify_bar(some_bar):
             some_bar['geometry']['coordinates'],
         )
     )
-    return __output
+    return output
 
 
 def print_info_bars(bars_list, args):
