@@ -5,7 +5,7 @@ import argparse
 def args_from_parser():
     parser = argparse.ArgumentParser(
         '|Find out and output the smallest bar '
-        'the biggest bar and the nearest bar|\n'
+        'the biggest bar and the nearest bar|',
     )
     parser.add_argument(
         '-v',
@@ -67,30 +67,27 @@ def prettify_bar(some_bar):
     return output
 
 
-def print_info_bars(bars_list, args):
+def print_bar(some_bar, bar_tag, args):
     if args.verbosity:
-        print(
-            '\The biggest bar\\',
-            prettify_json(get_biggest_bar(bars_list)),
-            '\The smallest bar\\',
-            prettify_json(get_smallest_bar(bars_list)),
-            '\The closest bar\\',
-            prettify_json(get_closest_bar(bars_list, args)),
-            sep='\n\n',
-        )
+        print('\n\{}\\'.format(bar_tag), prettify_json(some_bar), sep='\n')
     else:
-        print(
-            '\The biggest bar\\',
-            prettify_bar(get_biggest_bar(bars_list)),
-            '\The smallest bar\\',
-            prettify_bar(get_smallest_bar(bars_list)),
-            '\The closest bar\\',
-            prettify_bar(get_closest_bar(bars_list, args)),
-            sep='\n\n',
-        )
+        print('\n\{}\\'.format(bar_tag), prettify_bar(some_bar), sep='\n')
 
 
 if __name__ == '__main__':
-    args = args_from_parser()
-    bars_list = load_data(args.bars_json)['features']
-    print_info_bars(bars_list, args)
+    try:
+        args = args_from_parser()
+        bars_list = load_data(args.bars_json)['features']
+        print_bar(get_biggest_bar(bars_list), 'The biggest bar', args)
+        print_bar(get_smallest_bar(bars_list), 'The smallest bar', args)
+        print_bar(get_closest_bar(bars_list, args), 'The closest bar', args)
+    except ValueError:
+        print(
+            'error: there is no JSON data in the file'
+            '<{0}>\n specify the JSON data file'.format(args.bars_json)
+        )
+    except FileNotFoundError:
+        print(
+            'error: file is not found\ntry $ python bars.py '
+            '<path to json file> <longitude> <latitude>'
+        )
